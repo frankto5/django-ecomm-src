@@ -1,0 +1,44 @@
+{% extends 'layouts/shop.html' %}
+
+{% block title %}Productos{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-9">
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-3 col-sm-12 col-lg-4 my-2">
+                        <div class="card" style='width: 175px;'>
+                            {% if product.image %}
+                            <img 
+                            src="{{ product.image.url }}" 
+                            style="width: 100%;" class="card-img-top" 
+                            alt="{{ product.name }}">
+                            {% else %}
+                            No image found for {{ product.name }}, please upload an image.
+                            {% endif %}
+                            <div class="card-body">
+                                <h5 class="card-title">{{ product.name }}</h5>
+                                <hr/>
+                                <p class='card-text'>{{ product.price }}$</p>
+                            </div>
+                            <div class="card-footer text-center">
+                                {% if product.aviable %}
+                                <a href="{% url 'cart:add_product' product.id %}" class="btn btn-success btn-sm">Añadir al carro</a>
+                                {% else %}
+                                <a href="#" class="btn btn-danger btn-sm disabled">Sin stock</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <div class="col-3">            
+            {% include "cart/widget.html" %}
+        </div>
+    </div>
+
+{% endblock %}

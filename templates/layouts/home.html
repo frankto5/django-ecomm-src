@@ -1,0 +1,49 @@
+{% extends 'layouts/shop.html' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+
+<!-- <div class="container mt-4"> -->
+    <div class="jumbotron d-flex flex-column
+    justify-content-center align-items-center text-white text-center" style="background-image: url('http://imgfz.com/i/w2SpW56.jpeg'); background-size: cover; background-position: 40%; height: 70vh;">
+        <h1 class="display-3 text-capitalize w-75">Precios Increibles!</h1>
+        <p class="lead w-75">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Omnis sed nemo incidunt iusto, harum magni totam fugiat quia 
+        eos consequuntur?
+        </p>
+        <a href="{% url 'productList' %}" class="btn btn-success">Ver Productos</a>
+    </div>
+    <div class="container">
+        <h2 class="mb-3 text-center">Productos Recomendados</h2>
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    {% for product in products %}
+                    {% if product.recommended %}   
+                        <div class="col-md-4 col-sm-12 col-lg-4 my-4">
+                            <div class="card mx-auto" style='width: 175px;'>                                
+                                {% if product.image %}                             
+                                <img 
+                                src="{{ product.image.url }}" 
+                                style="width: 100%;" class="card-img-top" 
+                                alt="{{ product.name }}"> 
+                                <div class="card-body">
+                                    <hr/>
+                                    <h5 class="card-title">{{ product.name }}</h5>                                                                       
+                                </div>
+                                {% else %}
+                                No image found for {{ product.name }}, please upload an image.
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+    
+    </div>
+<!-- </div> -->
+
+{% endblock %}

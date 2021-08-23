@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gracias por su pedido!</title>
+    {% load cart_tags %}
+    <style>
+        #order {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        #order td, #order th{
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        #order tr:nth-child(even){background-color: #f2f2f2;}
+        #order tr:hover{background-color: #ddd;}
+        #order_lines th{
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #721c24;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <p>Hola, {{ username }},</p>
+    <p>Muchas gracias por tu pedido, a continuación adjuntamos toda la informacion del mismo.</p>
+    <h2>Información del pedido</h2>
+    <table id="order">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Total</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.total|money_format:"$" }}</td>
+                <td>{{ order.created_at|date:'d/m/Y H:i' }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <hr/>
+    <h2>Líneas de Pedido</h2>
+    <table id="order_lines">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio/U</th>
+                <th>Precio total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order_line in order_lines %}
+            <tr class="text-center">
+                <td>{{ order_line.product.name }}</td>
+                <td>{{ order_line.quantity }}</td>
+                <td>{{ order_line.product.price|money_format:"$" }}</td>
+                <td>{{ order_line.product.price|multiply:order_line.quantity|money_format:"$" }}</td>
+            </tr>
+             {% endfor %}
+        </tbody>
+    </table>
+    
+</body>
+</html>
